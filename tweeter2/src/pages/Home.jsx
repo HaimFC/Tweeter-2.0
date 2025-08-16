@@ -14,8 +14,17 @@ function Home() {
     <div className="home">
       <div className="home-content">
         {error && <div className="alert error">⚠ {error}</div>}
-        <TweetForm onAdd={handleAddTweet} disabled={posting} />
-        {loading ? <div className="loader" /> : <TweetList tweets={tweets} />}
+
+        {loading && (
+          <div className="loading-wrapper">
+            <div className="loader" />
+            <p className="loading-text">Loading...</p>
+          </div>
+        )}
+
+        <TweetForm onAdd={handleAddTweet} disabled={loading || posting} />
+
+        {!loading && <TweetList tweets={tweets} />}
       </div>
     </div>
   );

@@ -1,33 +1,29 @@
-const BASE_URL = "https://uckmgdznnsnusvmyfvsb.supabase.co/rest/v1";
-const API_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVja21nZHpubnNudXN2bXlmdnNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ0ODU5NjAsImV4cCI6MjA3MDA2MTk2MH0.D82S0DBivlsXCCAdpTRB3YqLqTOIP7MUj-p1R8Lj9Jo";
+import { supabase } from "./supabaseClient";
 
-const headers = {
-  apikey: API_KEY,
-  Authorization: `Bearer ${API_KEY}`,
-  "Content-Type": "application/json",
-};
-
+// שליפת כל הציוצים מהשרת
 export async function fetchTweets() {
-  const res = await fetch(`${BASE_URL}/Tweets?select=*`, { headers });
-  if (!res.ok) {
-    throw new Error("Failed to fetch tweets");
+  const { data, error } = await supabase
+    .from("Tweets")
+    .select("*")
+    .order("date", { ascending: false }); // ציוצים מהחדש לישן
+
+  if (error) {
+    throw new Error(error.message || "Failed to fetch tweets");
   }
-  return res.json();
+
+  return data;
 }
 
+// יצירת ציוץ חדש
 export async function createTweet(tweet) {
-  const res = await fetch(`${BASE_URL}/Tweets`, {
-    method: "POST",
-    headers: {
-      ...headers,
-      Prefer: "return=representation", 
-    },
-    body: JSON.stringify(tweet),
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || "Failed to create tweet");
+  const { data, error } = await supabase
+    .from("Tweets")
+    .insert([tweet]) // מכניס כ-object יחיד
+    .select();       // מחזיר את מה שנוצר
+
+  if (error) {
+    throw new Error(error.message || "Failed to create tweet");
   }
-  return res.json(); 
+
+  return data;
 }
