@@ -1,68 +1,50 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
+  --bg: #0f172a;        
+  --panel: #111827;     
+  --card: #1f2937;      
+  --card-brd: #374151;  
+  --text: #e5e7eb;      
+  --muted: #94a3b8;     
+  --brand: #3b82f6;     
+  --brand-600: #2563eb;
+  --danger: #ef4444;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+* { box-sizing: border-box; }
 
+html, body, #root { height: 100%; }
 body {
   margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+}
+
+.home {
+  min-height: 100%;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: center;
+  padding: 24px 16px 64px;
+}
+.home-content {
+  width: 100%;
+  max-width: 640px;          
+  display: grid;
+  gap: 20px;                 
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.alert {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #1f2937;
+  border: 1px solid #4b5563;
 }
+.alert.error { border-color: var(--danger); color: #fecaca; }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.loader {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 3px solid #334155; border-top-color: var(--brand);
+  margin: 20px auto; animation: spin 0.8s linear infinite;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+@keyframes spin { to { transform: rotate(360deg); } }

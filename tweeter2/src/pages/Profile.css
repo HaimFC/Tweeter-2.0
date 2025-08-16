@@ -1,0 +1,53 @@
+.profile-container {
+  min-height: calc(100vh - 64px); /* כל המסך פחות ה־Navbar */
+  display: flex;
+  justify-content: center; /* מרכז אופקי */
+  align-items: center;     /* מרכז אנכי */
+  padding: 20px;
+}
+
+.profile-card {
+  background: #1e293b; /* slate-800 */
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  width: 100%;
+  max-width: 480px;
+}
+
+.profile-card h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-form {
+  display: grid;
+  gap: 12px;
+}
+
+.profile-form label {
+  font-weight: 500;
+}
+
+.profile-form input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #64748b; /* slate-500 */
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+.profile-form button {
+  padding: 10px 16px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  justify-self: start;
+}
+
+.profile-form button:hover {
+  background: #2563eb;
+}
