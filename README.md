@@ -75,4 +75,3 @@ src/
 ## 🧑‍💻 Author
 Created by Haim Fellner Cohen.  
 Feel free to fork or contribute!
-```
