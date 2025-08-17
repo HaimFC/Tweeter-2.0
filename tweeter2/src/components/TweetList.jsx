@@ -1,16 +1,37 @@
+import { useEffect, useRef } from "react";
+import { useTweets } from "../context/TweetsContext";
+import TweetCard from "./TweetCard";
 import "./TweetList.css";
-import TweetCard from "./TweetCard.jsx";
 
-function TweetList({ tweets }) {
-  if (!tweets.length) {
-    return <div className="empty">No tweets yet. Be the first!</div>;
-  }
+function TweetList() {
+  const { tweets, loadMore, hasMore } = useTweets();
+  const loaderRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && hasMore) {
+          loadMore();
+        }
+      },
+      { threshold: 1 }
+    );
+
+    const current = loaderRef.current;
+    if (current) observer.observe(current);
+
+    return () => {
+      if (current) observer.unobserve(current);
+    };
+  }, [hasMore, loadMore]);
 
   return (
-    <div className="list">
-      {tweets.map((t) => (
-        <TweetCard key={t.id} tweet={t} />
+    <div className="tweet-list">
+      {tweets.map((tweet) => (
+        <TweetCard key={tweet.id} tweet={tweet} />
       ))}
+      <div ref={loaderRef} style={{ height: "1px", visibility: "hidden" }} />
     </div>
   );
 }

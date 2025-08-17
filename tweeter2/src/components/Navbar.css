@@ -1,11 +1,23 @@
 .navbar {
-  position: sticky; top: 0; z-index: 100;
-  display: flex; gap: 20px; align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  gap: 20px;
+  align-items: center;
   height: 56px;
   padding: 0 20px;
   background: #0b1220;
   border-bottom: 1px solid #1f2937;
   backdrop-filter: blur(6px);
 }
-.nav-link { color: #cbd5e1; text-decoration: none; font-weight: 500; }
-.nav-link.active { color: #7c1e1e; }
+
+.nav-link {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-link.active {
+  color: #7c1e1e;
+}

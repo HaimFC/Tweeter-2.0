@@ -1,8 +1,8 @@
 .home {
   display: flex;
-  justify-content: center;   /* ממקם הכל במרכז */
+  justify-content: center;   
   padding: 24px 16px;
-  background: #0f172a;       /* רקע אחיד */
+  background: #0f172a;      
   min-height: 100vh;
 }
 

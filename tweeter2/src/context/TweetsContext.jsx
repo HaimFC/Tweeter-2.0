@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
 import { fetchTweets, createTweet } from "../lib/api";
 import { useAuth } from "./AuthContext";
 
@@ -6,22 +6,23 @@ export const TweetsContext = createContext();
 
 export function TweetsProvider({ children }) {
   const [tweets, setTweets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [posting, setPosting] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const { user } = useAuth();
 
-  // ניתן לבטל את זה ע"י שינוי לערך false
-  const enablePolling = true;
-  const pollingIntervalMs = 60000; // דקה אחת
+  const TWEETS_PER_PAGE = 10;
 
-  const getTweets = async () => {
+  const getTweets = async (append = false) => {
     setLoading(true);
     try {
-      const data = await fetchTweets();
+      const data = await fetchTweets(page, TWEETS_PER_PAGE);
+      if (data.length < TWEETS_PER_PAGE) setHasMore(false);
       const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
-      setTweets(sorted);
+      setTweets((prev) => (append ? [...prev, ...sorted] : sorted));
       setError(null);
     } catch (err) {
       setError(err.message || "Failed to fetch tweets");
@@ -32,18 +33,25 @@ export function TweetsProvider({ children }) {
 
   useEffect(() => {
     if (!user) return;
-
     getTweets();
-
-    let interval;
-    if (enablePolling) {
-      interval = setInterval(getTweets, pollingIntervalMs);
-    }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
   }, [user]);
+
+  useEffect(() => {
+    document.body.style.cursor = loading ? "wait" : "default";
+    return () => {
+      document.body.style.cursor = "default";
+    };
+  }, [loading]);
+
+  const loadMore = () => {
+    if (loading || !hasMore) return;
+    setPage((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    if (page === 1) return;
+    getTweets(true);
+  }, [page]);
 
   const addTweet = async (content) => {
     const userName = user?.email || "Guest";
@@ -66,7 +74,9 @@ export function TweetsProvider({ children }) {
   };
 
   return (
-    <TweetsContext.Provider value={{ tweets, loading, posting, error, addTweet }}>
+    <TweetsContext.Provider
+      value={{ tweets, loading, posting, error, addTweet, loadMore, hasMore }}
+    >
       {children}
     </TweetsContext.Provider>
   );

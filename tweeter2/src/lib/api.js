@@ -1,25 +1,25 @@
 import { supabase } from "./supabaseClient";
 
-// שליפת כל הציוצים מהשרת
-export async function fetchTweets() {
+export async function fetchTweets(page = 1, limit = 10) {
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
   const { data, error } = await supabase
     .from("Tweets")
     .select("*")
-    .order("date", { ascending: false }); // ציוצים מהחדש לישן
+    .range(from, to)
+    .order("date", { ascending: false });
 
-  if (error) {
-    throw new Error(error.message || "Failed to fetch tweets");
-  }
+  if (error) throw new Error(error.message || "Failed to fetch tweets");
 
   return data;
 }
 
-// יצירת ציוץ חדש
 export async function createTweet(tweet) {
   const { data, error } = await supabase
     .from("Tweets")
-    .insert([tweet]) // מכניס כ-object יחיד
-    .select();       // מחזיר את מה שנוצר
+    .insert([tweet]) 
+    .select();      
 
   if (error) {
     throw new Error(error.message || "Failed to create tweet");

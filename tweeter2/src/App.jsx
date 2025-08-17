@@ -5,12 +5,11 @@ import Navbar from "./components/Navbar.jsx";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import Login from "./pages/Login.jsx";
+import SignUp from "./pages/SignUp.jsx"; 
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
-
-  if (loading) return null; // או spinner
-
+  if (loading) return null; 
   return user ? children : <Navigate to="/login" />;
 }
 
@@ -22,6 +21,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route
               path="/"
               element={
