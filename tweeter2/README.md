@@ -1,12 +1,78 @@
-# React + Vite
+```markdown
+# 🐦 Mini Twitter App (React + Supabase)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal Twitter-like application built with **React**, **Vite**, and **Supabase**.  
+Includes authentication, tweet creation, and infinite scrolling.
 
-Currently, two official plugins are available:
+## 🚀 Features
+- 🔐 User Sign Up / Sign In (Supabase Auth)
+- 📝 Post tweets (only available to logged-in users)
+- ♾ Infinite scroll – fetches 10 tweets at a time
+- ♻️ Optional polling every 60 seconds to refresh data
+- 💅 Clean and responsive styling
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧰 Tech Stack
+- **Frontend:** React + Vite
+- **Backend:** Supabase (PostgreSQL + Auth)
+- **Auth:** Supabase Email/Password Authentication
 
-## Expanding the ESLint configuration
+## ⚙️ Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1. Clone the repo
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+npm install
+npm run dev
+```
+
+### 2. Set up Supabase
+- Create a free project at [https://supabase.com](https://supabase.com)
+- Create a table called `Tweets` with the following columns:
+
+| Column     | Type      | Description                          |
+|------------|-----------|--------------------------------------|
+| `id`       | bigint    | Primary Key, Auto-increment          |
+| `content`  | text      | The tweet content                    |
+| `userName` | text      | The user's email                     |
+| `date`     | timestamp | Date the tweet was posted (UTC)      |
+
+- Enable **Email/Password Auth** in your Supabase project
+- Copy your project URL and `anon` key and paste into `supabaseClient.js`:
+
+## 🗂 Folder Structure
+```
+src/
+│
+├── App.jsx
+├── main.jsx
+├── index.css
+│
+├── context/
+│   ├── AuthContext.jsx
+│   └── TweetsContext.jsx
+│
+├── components/
+│   ├── Navbar.jsx
+│   ├── TweetForm.jsx
+│   ├── TweetCard.jsx
+│   ├── TweetList.jsx
+│   ├── SignIn.jsx
+│   └── SignUp.jsx
+│
+├── lib/
+│   └── api.js
+│
+└── supabaseClient.js
+```
+
+## 📌 TODO / Extensions
+- 🖼 Add user avatars
+- ❤️ Like/favorite tweets
+- 📬 Email verification step
+- 🌐 Deploy on Vercel / Netlify
+
+## 🧑‍💻 Author
+Created by Haim Fellner Cohen.  
+Feel free to fork or contribute!
+```
